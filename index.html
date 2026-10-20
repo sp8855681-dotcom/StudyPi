@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyPilot</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.10);
+      --text: #e8eefc;
+      --muted: rgba(232,238,252,0.72);
+      --brand: #5eead4;
+      --brand2:#60a5fa;
+      --danger:#fb7185;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(96,165,250,0.25), transparent 60%),
+                  radial-gradient(900px 500px at 80% 20%, rgba(94,234,212,0.20), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    header{
+      padding: 18px 18px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 260px;
+    }
+
+    .logo{
+      width:42px; height:42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(94,234,212,0.9), rgba(96,165,250,0.9));
+      box-shadow: 0 12px 30px rgba(94,234,212,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      letter-spacing: -0.5px;
+      color:#071018;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size: 18px;
+      line-height:1.15;
+    }
+    .brand p{
+      margin:0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      border:1px solid var(--border);
+      background: var(--panel);
+      border-radius: 999px;
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      backdrop-filter: blur(8px);
+    }
+
+    .pill strong{ color: var(--text); font-weight:700; }
+
+    main{
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 18px 24px;
+      flex: 1;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 900px){
+      main{ grid-template-columns: 1fr; }
+      .sidebar{ order:2; }
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar{
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      height: fit-content;
+    }
+
+    .sidebar h2{
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: rgba(232,238,252,0.92);
+    }
+
+    .tips{
+      margin:0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.6;
+    }
+    .tips li{ margin: 6px 0; }
+
+    .quickbox{
+      padding: 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .quickbox label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    select{
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      outline:none;
+    }
+
+    .mode-note{
+      margin-top:10px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.5;
+    }
+
+    .chat{
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+
+    .chat-header{
+      padding: 14px 14px 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .chat-header .title{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .chat-header h2{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: -0.2px;
+    }
+    .chat-header p{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+
+    .btn-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    button{
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor:pointer;
+      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
+      font-weight:600;
+      font-size: 13px;
+    }
+    button:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.22);
+    }
+    button:active{ transform: scale(0.99); }
+
+    .btn-primary{
+      border-color: rgba(94,234,212,0.35);
+      background: linear-gradient(135deg, rgba(94,234,212,0.20), rgba(96,165,250,0.20));
+    }
+    .btn-danger{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.10);
+    }
+    button:disabled{
+      opacity:0.6;
+      cursor:not-allowed;
+    }
+
+    .messages{
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      height: 62vh;
+      overflow:auto;
+    }
+
+    .msg{
+      max-width: 92%;
+      padding: 11px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,0.10);
+      line-height:1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 14px;
+    }
+
+    .msg.user{
+      align-self:flex-end;
+      background: rgba(94,234,212,0.12);
+      border-color: rgba(94,234,212,0.25);
+    }
+    .msg.assistant{
+      align-self:flex-start;
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.10);
+    }
+
+    .meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .composer{
+      padding: 12px;
+      border-top:1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      gap:10px;
+      align-items:flex-end;
+    }
+
+    textarea{
+      width:100%;
+      min-height: 44px;
+      max-height: 140px;
+      resize: none;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      outline:none;
+      line-height:1.4;
+      font-size: 14px;
+    }
+
+    .footer-help{
+      max-width:1100px;
+      width:100%;
+      margin: 0 auto;
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.6;
+    }
+
+    a{ color: rgba(94,234,212,0.9); }
+    code{
+      background: rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.12);
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">SP</div>
+      <div>
+        <h1>StudyPilot</h1>
+        <p>Perfect explanations • Clear step-by-step answers</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <div class="pill">
+        Mode: <strong id="modeLabel">Tutor</strong>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <aside class="sidebar card">
+      <h2>How to get the best help</h2>
+      <ul class="tips">
+        <li>Ask a specific question (include your topic and level).</li>
+        <li>If it’s math/science, say what you already tried.</li>
+        <li>Ask for “step-by-step” or “explain like I’m 12”.</li>
+      </ul>
+
+      <div class="quickbox">
+        <label for="mode">Answer style</label>
+        <select id="mode">
+          <option value="tutor" selected>Tutor (step-by-step)</option>
+          <option value="exam">Exam mode (concise + structured)</option>
+          <option value="concept">Concept first (intuition + examples)</option>
+          <option value="debug">Homework helper (find mistakes + fix)</option>
+        </select>
+        <div class="mode-note" id="modeNote">
+          The AI will follow the selected explanation style.
+        </div>
+      </div>
+
+      <div class="quickbox">
+        <label>Quick prompts</label>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="quickBtn" data-prompt="Explain photosynthesis step-by-step. Give a simple analogy.">Photosynthesis</button>
+          <button type="button" class="quickBtn" data-prompt="Solve: 3x + 5 = 20. Show steps and check the answer.">Linear equation</button>
+          <button type="button" class="quickBtn" data-prompt="Explain Newton's 2nd law with examples from daily life.">Newton 2nd law</button>
+          <button type="button" class="quickBtn" data-prompt="Help me study for an exam on algebra. Make a short study plan.">Study plan</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="chat card" aria-label="StudyPilot chat">
+      <div class="chat-header">
+        <div class="title">
+          <h2>Ask StudyPilot</h2>
+          <p>Type a question below. StudyPilot will answer with clear explanations.</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" id="btnExample">Insert Example</button>
+          <button class="btn-danger" id="btnClear">Clear</button>
+        </div>
+      </div>
+
+      <div class="messages" id="messages" role="log" aria-live="polite"></div>
+
+      <div class="composer">
+        <textarea id="input" placeholder="e.g., Explain the difference between mitosis and meiosis. Include steps and key differences."></textarea>
+        <button class="btn-primary" id="btnSend">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-help">
+    <strong>Backend:</strong> This page connects to <code>http://127.0.0.1:5000/chat</code>.
+    Make sure <code>app.py</code> is running (<code>python app.py</code>) and your
+    <code>OPENAI_API_KEY</code> environment variable is set before sending messages.
+  </div>
+
+  <script>
+    const messagesEl = document.getElementById('messages');
+    const inputEl = document.getElementById('input');
+    const btnSend = document.getElementById('btnSend');
+    const btnClear = document.getElementById('btnClear');
+    const btnExample = document.getElementById('btnExample');
+    const modeEl = document.getElementById('mode');
+    const modeLabel = document.getElementById('modeLabel');
+
+    // Conversation stored in-memory (refresh resets)
+    const conversation = [
+      // You can add a system prompt here if your backend uses it.
+      { role: "system", content: "You are StudyPilot. Help students with perfect, clear, step-by-step explanations. Ask clarifying questions when needed. Keep answers accurate and easy to understand." }
+    ];
+
+    function nowTime(){
+      const d = new Date();
+      return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    function addMessage(role, content){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'msg ' + (role === 'user' ? 'user' : 'assistant');
+      wrapper.innerHTML = `
+        <div>${escapeHtml(content)}</div>
+        <div class="meta">
+          <span>${role === 'user' ? 'You' : 'StudyPilot'}</span>
+          <span>${nowTime()}</span>
+        </div>
+      `;
+      messagesEl.appendChild(wrapper);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+    }
+
+    function buildStyleMode(){
+      const mode = modeEl.value;
+      if (mode === 'tutor') {
+        return { label: "Tutor", note: "Step-by-step explanations with checks." };
+      }
+      if (mode === 'exam') {
+        return { label: "Exam", note: "Concise, structured answers." };
+      }
+      if (mode === 'concept') {
+        return { label: "Concept", note: "Intuition first + examples." };
+      }
+      if (mode === 'debug') {
+        return { label: "Homework helper", note: "Find mistakes and correct them." };
+      }
+      return { label: "Tutor", note: "" };
+    }
+
+    function updateModeUI(){
+      const m = buildStyleMode();
+      modeLabel.textContent = m.label;
+      document.getElementById('modeNote').textContent = m.note;
+    }
+
+    modeEl.addEventListener('change', updateModeUI);
+    updateModeUI();
+
+    document.querySelectorAll('.quickBtn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        inputEl.value = btn.dataset.prompt || "";
+        inputEl.focus();
+      });
+    });
+
+    btnExample.addEventListener('click', ()=>{
+      inputEl.value = "Solve and explain step-by-step: 2(3x-4)=10. Show your working and final answer.";
+      inputEl.focus();
+    });
+
+    btnClear.addEventListener('click', ()=>{
+      messagesEl.innerHTML = "";
+      inputEl.value = "";
+      // keep system message
+      conversation.splice(1);
+    });
+
+    function setLoading(isLoading){
+      btnSend.disabled = isLoading;
+      inputEl.disabled = isLoading;
+      btnClear.disabled = isLoading;
+      btnExample.disabled = isLoading;
+    }
+
+    async function callBackend(userText){
+      // NOTE:
+      // This expects your backend to return:
+      // { answer: "..." }
+      //
+      // You can also return { message: "..."}; update below accordingly.
+      const payload = {
+        message: userText,
+        mode: modeEl.value,
+        conversation: conversation.map(m => ({ role: m.role, content: m.content }))
+      };
+
+      const res = await fetch('http://127.0.0.1:5000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok){
+        const text = await res.text().catch(()=> "");
+        throw new Error("Backend error: " + text || res.statusText);
+      }
+
+      return await res.json();
+    }
+
+    async function sendMessage(){
+      const text = inputEl.value.trim();
+      if (!text) return;
+
+      addMessage('user', text);
+      conversation.push({ role: 'user', content: text });
+
+      inputEl.value = "";
+      setLoading(true);
+
+      // show placeholder assistant message
+      const thinking = document.createElement('div');
+      thinking.className = 'msg assistant';
+      thinking.innerHTML = `
+        <div>Thinking...</div>
+        <div class="meta">
+          <span>StudyPilot</span>
+          <span>${nowTime()}</span>
+        </div>
+      `;
+      messagesEl.appendChild(thinking);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+
+      try{
+        const data = await callBackend(text);
+
+        const answer =
+          data.answer ?? data.message ?? data.text ??
+          "Sorry—backend returned an unexpected response.";
+
+        // remove placeholder
+        thinking.remove();
+        addMessage('assistant', answer);
+        conversation.push({ role: 'assistant', content: answer });
+      }catch(err){
+        console.error(err);
+        thinking.remove();
+        const msg = "Could not get an answer. " +
+                    "Make sure your /api/chat backend is running. Error: " + err.message;
+        addMessage('assistant', msg);
+        // You may also push error into conversation if you want
+      }finally{
+        setLoading(false);
+      }
+    }
+
+    btnSend.addEventListener('click', sendMessage);
+    inputEl.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter' && !e.shiftKey){
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
